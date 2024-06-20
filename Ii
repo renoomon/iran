@@ -79,32 +79,4 @@
             <h2>مسلسلات</h2>
             <div class="card">
                 <img src="series-poster.jpg" alt="Series Poster">
-                <h3>اسم المسلسل</h3>
-                <p>وصف مختصر عن المسلسل.</p>
-                <a href="#details" onclick="showDetails('series')">تفاصيل</a>
-            </div>
-            <!-- إضافة المزيد من المسلسلات -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 موقع أفلام ومسلسلات</p>
-    </footer>
-    <script>
-        function showDetails(type) {
-            const detailsSection = document.createElement('section');
-            detailsSection.id = 'details';
-            detailsSection.innerHTML = `
-                <h2>تفاصيل ${type === 'movie' ? 'الفيلم' : 'المسلسل'}</h2>
-                <img src="${type === 'movie' ? 'movie-poster.jpg' : 'series-poster.jpg'}" alt="Poster">
-                <p>وصف كامل للفيلم أو المسلسل.</p>
-                <a href="#" onclick="closeDetails()">إغلاق</a>
-            `;
-            document.querySelector('main').innerHTML = '';
-            document.querySelector('main').appendChild(detailsSection);
-        }
-        function closeDetails() {
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+                <
