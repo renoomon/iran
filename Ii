@@ -1,51 +1,39 @@
-import streamlit as st
-import requests
-from PIL import Image
-from io import BytesIO
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 
-# عنوان التطبيق
-st.title("توصيات الأفلام الجنسية الصريحة")
+app.use(bodyParser.json());
 
-# نموذج طلب التوصيات
-st.header("اطلب توصياتك")
+app.get('/', (req, res) => {
+  res.send('Welcome to the Explicit Movie Recommendations API');
+});
 
-# حقول إدخال المستخدم
-genre = st.text_input("النوع المفضل:")
-themes = st.text_input("المواضيع المفضلة:")
-elements = st.text_input("العناصر المفضلة:")
+app.post('/recommendations', (req, res) => {
+  const { preferences } = req.body;
 
-# زر الإرسال
-if st.button("احصل على توصيات"):
-    # افتراض وجود API يعود بالتوصيات بناءً على المدخلات
-    # نستخدم هنا مثالاً تخيلياً
-    url = "https://example.com/api/movies"  # استبدل هذا بـ URL الخاص بالـAPI الحقيقي
-    params = {
-        "genre": genre,
-        "themes": themes,
-        "elements": elements
-    }
-    
-    response = requests.get(url, params=params)
-    
-    if response.status_code == 200:
-        movies = response.json()
-        
-        for movie in movies:
-            st.subheader(movie["name"])
-            st.text(f"سنة الإنتاج: {movie['year']}")
-            st.text(f"النوع: {movie['type']}")
-            st.text(f"نسبة التعري: {movie['nudity_percentage']}% 🔥" if movie['nudity_percentage'] >= 95 else f"نسبة التعري: {movie['nudity_percentage']}%")
-            st.text(f"نوع التعري: {'كامل 🔞' if movie['full_nudity'] else 'نصفي'}")
-            st.text(f"هل يظهر المهبل والقضيب: {'نعم 🥵' if movie['genitals_visible'] else 'لا'}")
-            st.text(f"هل القضيب يدخل في المهبل: {'نعم' if movie['penetration'] else 'لا'}")
-            st.text(f"نوع اللقطة: {movie['scene_type']} 🌶" if movie['scene_type'] == 'جرئية جداً' else movie['scene_type'])
-            st.text(f"لقطات محظورة: {'نعم 🚫' if movie['banned_scenes'] else 'لا'}")
-            st.text(f"هل اللقطة التي بحثت عنها موجودة: {'نعم 🫦' if movie['desired_scene_present'] else 'لا'}")
-            st.text(f"وصف مختصر: {movie['description']}")
-            st.text(f"الدولة: {movie['country']}")
+  // مثال على توصيات وهمية
+  const recommendations = [
+    {
+      "name": "Love",
+      "year": 2015,
+      "type": "فيلم",
+      "nudity_level": "100%",
+      "nudity_type": "تعري كامل 🔞",
+      "genitals_shown": "نعم 🥵",
+      "penetration": "نعم",
+      "most_explicit_scene": "مشهد جنسي حقيقي 🌶",
+      "banned_scenes": "لا",
+      "scene_found": "نعم 🫦",
+      "description": "فيلم يتبع قصة حب عاطفية وجنسية.",
+      "country": "فرنسا 🇫🇷"
+    },
+    // إضافة المزيد من التوصيات هنا...
+  ];
 
-            # عرض الصورة
-            image_url = movie["image_url"]
-            response = requests.get(image_url)
-            img = Image.open(BytesIO(response.content))
-            st.image(img, caption=movie["name"])
+  res.json(recommendations);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
