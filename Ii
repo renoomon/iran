@@ -1,0 +1,53 @@
+import streamlit as st
+import requests
+from PIL import Image
+from io import BytesIO
+
+# عنوان التطبيق
+st.title("توصيات الأفلام الجنسية الصريحة")
+
+# نموذج طلب التوصيات
+st.header("اطلب توصياتك")
+
+# حقول إدخال المستخدم
+genre = st.text_input("النوع المفضل:")
+themes = st.text_input("المواضيع المفضلة:")
+elements = st.text_input("العناصر المفضلة:")
+
+# زر الإرسال
+if st.button("احصل على توصيات"):
+    # افتراضيًا، نحن نفترض وجود API يعود بالتوصيات بناءً على المدخلات
+    # سنستخدم هنا مثالاً تخيلياً
+    url = "https://example.com/api/movies"
+    params = {
+        "genre": genre,
+        "themes": themes,
+        "elements": elements
+    }
+    
+    response = requests.get(url, params=params)
+    
+    if response.status_code == 200:
+        movies = response.json()
+        
+        for movie in movies:
+            st.subheader(movie["name"])
+            st.text(f"سنة الإنتاج: {movie['year']}")
+            st.text(f"النوع: {movie['type']}")
+            st.text(f"نسبة التعري: {movie['nudity_percentage']}% 🔥" if movie['nudity_percentage'] >= 95 else f"نسبة التعري: {movie['nudity_percentage']}%")
+            st.text(f"نوع التعري: {'كامل 🔞' if movie['full_nudity'] else 'نصفي'}")
+            st.text(f"هل يظهر المهبل والقضيب: {'نعم 🥵' if movie['genitals_visible'] else 'لا'}")
+            st.text(f"هل القضيب يدخل في المهبل: {'نعم' if movie['penetration'] else 'لا'}")
+            st.text(f"نوع اللقطة: {movie['scene_type']} 🌶" if movie['scene_type'] == 'جرئية جداً' else movie['scene_type'])
+            st.text(f"لقطات محظورة: {'نعم 🚫' if movie['banned_scenes'] else 'لا'}")
+            st.text(f"هل اللقطة التي بحثت عنها موجودة: {'نعم 🫦' if movie['desired_scene_present'] else 'لا'}")
+            st.text(f"وصف مختصر: {movie['description']}")
+            st.text(f"الدولة: {movie['country']}")
+            
+            # عرض الصورة
+            image_url = movie["image_url"]
+            response = requests.get(image_url)
+            img = Image.open(BytesIO(response.content))
+            st.image(img, caption=movie["name"])
+    else:
+        st.error("حدث خطأ في جلب التوصيات. حاول مرة أخرى لاحقاً.")
