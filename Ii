@@ -1,39 +1,110 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-
-app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the Explicit Movie Recommendations API');
-});
-
-app.post('/recommendations', (req, res) => {
-  const { preferences } = req.body;
-
-  // مثال على توصيات وهمية
-  const recommendations = [
-    {
-      "name": "Love",
-      "year": 2015,
-      "type": "فيلم",
-      "nudity_level": "100%",
-      "nudity_type": "تعري كامل 🔞",
-      "genitals_shown": "نعم 🥵",
-      "penetration": "نعم",
-      "most_explicit_scene": "مشهد جنسي حقيقي 🌶",
-      "banned_scenes": "لا",
-      "scene_found": "نعم 🫦",
-      "description": "فيلم يتبع قصة حب عاطفية وجنسية.",
-      "country": "فرنسا 🇫🇷"
-    },
-    // إضافة المزيد من التوصيات هنا...
-  ];
-
-  res.json(recommendations);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع أفلام ومسلسلات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1em;
+        }
+        main {
+            padding: 1em;
+        }
+        section {
+            margin: 1em 0;
+        }
+        .card {
+            background-color: white;
+            padding: 1em;
+            margin: 1em 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .card h3 {
+            margin: 0.5em 0;
+        }
+        .card p {
+            margin: 0.5em 0;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 0.5em;
+            padding: 0.5em 1em;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>موقع أفلام ومسلسلات</h1>
+        <nav>
+            <a href="#movies">أفلام</a>
+            <a href="#series">مسلسلات</a>
+        </nav>
+    </header>
+    <main>
+        <section id="movies">
+            <h2>أفلام</h2>
+            <div class="card">
+                <img src="movie-poster.jpg" alt="Movie Poster">
+                <h3>اسم الفيلم</h3>
+                <p>وصف مختصر عن الفيلم.</p>
+                <a href="#details" onclick="showDetails('movie')">تفاصيل</a>
+            </div>
+            <!-- إضافة المزيد من الأفلام -->
+        </section>
+        <section id="series">
+            <h2>مسلسلات</h2>
+            <div class="card">
+                <img src="series-poster.jpg" alt="Series Poster">
+                <h3>اسم المسلسل</h3>
+                <p>وصف مختصر عن المسلسل.</p>
+                <a href="#details" onclick="showDetails('series')">تفاصيل</a>
+            </div>
+            <!-- إضافة المزيد من المسلسلات -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 موقع أفلام ومسلسلات</p>
+    </footer>
+    <script>
+        function showDetails(type) {
+            const detailsSection = document.createElement('section');
+            detailsSection.id = 'details';
+            detailsSection.innerHTML = `
+                <h2>تفاصيل ${type === 'movie' ? 'الفيلم' : 'المسلسل'}</h2>
+                <img src="${type === 'movie' ? 'movie-poster.jpg' : 'series-poster.jpg'}" alt="Poster">
+                <p>وصف كامل للفيلم أو المسلسل.</p>
+                <a href="#" onclick="closeDetails()">إغلاق</a>
+            `;
+            document.querySelector('main').innerHTML = '';
+            document.querySelector('main').appendChild(detailsSection);
+        }
+        function closeDetails() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
