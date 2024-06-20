@@ -16,9 +16,9 @@ elements = st.text_input("العناصر المفضلة:")
 
 # زر الإرسال
 if st.button("احصل على توصيات"):
-    # افتراضيًا، نحن نفترض وجود API يعود بالتوصيات بناءً على المدخلات
-    # سنستخدم هنا مثالاً تخيلياً
-    url = "https://example.com/api/movies"
+    # افتراض وجود API يعود بالتوصيات بناءً على المدخلات
+    # نستخدم هنا مثالاً تخيلياً
+    url = "https://example.com/api/movies"  # استبدل هذا بـ URL الخاص بالـAPI الحقيقي
     params = {
         "genre": genre,
         "themes": themes,
@@ -43,11 +43,9 @@ if st.button("احصل على توصيات"):
             st.text(f"هل اللقطة التي بحثت عنها موجودة: {'نعم 🫦' if movie['desired_scene_present'] else 'لا'}")
             st.text(f"وصف مختصر: {movie['description']}")
             st.text(f"الدولة: {movie['country']}")
-            
+
             # عرض الصورة
             image_url = movie["image_url"]
             response = requests.get(image_url)
             img = Image.open(BytesIO(response.content))
             st.image(img, caption=movie["name"])
-    else:
-        st.error("حدث خطأ في جلب التوصيات. حاول مرة أخرى لاحقاً.")
